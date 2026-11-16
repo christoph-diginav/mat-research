@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_replacement_view_list" model="ir.ui.view">
+        <field name="name">product.replacement.list</field>
+        <field name="model">product.replacement</field>
+        <field name="arch" type="xml">
+            <list string="Product Replacements" create="0" edit="0" delete="0">
+                <field name="date"/>
+                <field name="original_tmpl_id"/>
+                <field name="replacement_tmpl_id"/>
+                <field name="reason_name"/>
+                <field name="note" optional="show"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="product_replacement_view_form" model="ir.ui.view">
+        <field name="name">product.replacement.form</field>
+        <field name="model">product.replacement</field>
+        <field name="arch" type="xml">
+            <form string="Product Replacement" create="0" edit="0" delete="0">
+                <sheet>
+                    <group>
+                        <group string="Products">
+                            <field name="original_tmpl_id"/>
+                            <field name="replacement_tmpl_id"/>
+                        </group>
+                        <group string="Who and when">
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="date"/>
+                        </group>
+                    </group>
+                    <group string="Why">
+                        <field name="reason_name"/>
+                        <field name="reason_id" string="Current reason"/>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_replacement_view_search" model="ir.ui.view">
+        <field name="name">product.replacement.search</field>
+        <field name="model">product.replacement</field>
+        <field name="arch" type="xml">
+            <search string="Product Replacements">
+                <field name="original_tmpl_id"/>
+                <field name="replacement_tmpl_id"/>
+                <field name="reason_id"/>
+                <field name="user_id"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_reason" string="Reason" context="{'group_by': 'reason_id'}"/>
+                    <filter name="group_by_user" string="Performed By" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_by_date" string="Date" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_product_replacement" model="ir.actions.act_window">
+        <field name="name">Product Replacements</field>
+        <field name="res_model">product.replacement</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No product has been replaced yet
+            </p>
+            <p>
+                Use the Replace button on a product to create its replacement.
+            </p>
+        </field>
+    </record>
+
+</odoo>

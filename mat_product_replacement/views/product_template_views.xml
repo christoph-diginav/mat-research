@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form of the product template only (not the variant form). -->
+    <record id="product_template_only_form_view_inherit_product_replacement" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.product.replacement</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="%(mat_product_replacement.action_product_replacement_wizard)d"
+                        type="action"
+                        string="Replace"
+                        groups="mat_product_replacement.group_product_replacement_manager"
+                        invisible="not id or not active or product_variant_count != 1 or replacement_state == 'deprecated'"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="after">
+                <widget name="web_ribbon"
+                        title="Deprecated"
+                        bg_color="text-bg-warning"
+                        invisible="not active or replacement_state != 'deprecated'"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Replacement" name="product_replacement" invisible="replacement_state == 'normal'">
+                    <group>
+                        <group name="product_replacement_links">
+                            <field name="replacement_state"
+                                   widget="badge"
+                                   decoration-warning="replacement_state == 'deprecated'"
+                                   decoration-success="replacement_state == 'new'"/>
+                            <field name="replaced_by_id" invisible="not replaced_by_id"/>
+                            <field name="replaces_id" invisible="not replaces_id"/>
+                        </group>
+                    </group>
+                    <field name="replacement_log_ids" nolabel="1">
+                        <list>
+                            <field name="date"/>
+                            <field name="original_tmpl_id"/>
+                            <field name="replacement_tmpl_id"/>
+                            <field name="reason_name"/>
+                            <field name="note"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_template_tree_view_inherit_product_replacement" model="ir.ui.view">
+        <field name="name">product.template.list.inherit.product.replacement</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="replacement_state"
+                       optional="hide"
+                       widget="badge"
+                       decoration-warning="replacement_state == 'deprecated'"
+                       decoration-success="replacement_state == 'new'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_template_search_view_inherit_product_replacement" model="ir.ui.view">
+        <field name="name">product.template.search.inherit.product.replacement</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter name="filter_replacement_deprecated"
+                        string="Deprecated"
+                        domain="[('replacement_state', '=', 'deprecated')]"/>
+                <filter name="filter_replacement_new"
+                        string="New (replacement)"
+                        domain="[('replacement_state', '=', 'new')]"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

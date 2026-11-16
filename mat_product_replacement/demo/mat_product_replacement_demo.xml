@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- ============================================================ -->
+    <!-- Sample lab products (one variant each)                       -->
+    <!-- ============================================================ -->
+    <record id="demo_product_buffer_ph7" model="product.product">
+        <field name="name">Buffer Solution pH 7.00 (500 ml)</field>
+        <field name="default_code">LAB-BUF-700</field>
+        <field name="is_storable" eval="True"/>
+        <field name="list_price">18.50</field>
+        <field name="standard_price">9.20</field>
+    </record>
+    <record id="demo_product_ethanol_96" model="product.product">
+        <field name="name">Ethanol 96% (1 l)</field>
+        <field name="default_code">LAB-ETH-096</field>
+        <field name="is_storable" eval="True"/>
+        <field name="list_price">24.00</field>
+        <field name="standard_price">11.50</field>
+    </record>
+    <record id="demo_product_pipette_tips" model="product.product">
+        <field name="name">Pipette Tips 200 µl (box of 960)</field>
+        <field name="default_code">LAB-TIP-200</field>
+        <field name="is_storable" eval="True"/>
+        <field name="list_price">39.90</field>
+        <field name="standard_price">21.00</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Stock on hand, to show that it stays on the original         -->
+    <!-- ============================================================ -->
+    <record id="demo_quant_buffer_ph7" model="stock.quant">
+        <field name="product_id" ref="demo_product_buffer_ph7"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="inventory_quantity">25.0</field>
+    </record>
+    <record id="demo_quant_ethanol_96" model="stock.quant">
+        <field name="product_id" ref="demo_product_ethanol_96"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="inventory_quantity">12.0</field>
+    </record>
+    <record id="demo_quant_pipette_tips" model="stock.quant">
+        <field name="product_id" ref="demo_product_pipette_tips"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="inventory_quantity">40.0</field>
+    </record>
+    <function model="stock.quant" name="action_apply_inventory">
+        <function model="stock.quant" name="search"
+                  eval="[[('id', 'in', (ref('demo_quant_buffer_ph7'), ref('demo_quant_ethanol_96'), ref('demo_quant_pipette_tips')))]]"/>
+    </function>
+
+    <!-- ============================================================ -->
+    <!-- A confirmed sales order on a product that will be replaced   -->
+    <!-- ============================================================ -->
+    <record id="demo_partner_lab_customer" model="res.partner">
+        <field name="name">Riverside Diagnostics Lab</field>
+        <field name="is_company" eval="True"/>
+        <field name="email">orders@riverside-diagnostics.example.com</field>
+    </record>
+    <record id="demo_sale_order_buffer" model="sale.order">
+        <field name="partner_id" ref="demo_partner_lab_customer"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="client_order_ref">LAB-PO-0042</field>
+    </record>
+    <record id="demo_sale_order_line_buffer" model="sale.order.line">
+        <field name="order_id" ref="demo_sale_order_buffer"/>
+        <field name="product_id" ref="demo_product_buffer_ph7"/>
+        <field name="product_uom_qty">4</field>
+    </record>
+    <function model="sale.order" name="action_confirm" eval="[[ref('demo_sale_order_buffer')]]"/>
+
+    <!-- ============================================================ -->
+    <!-- Two users: one authorised to replace products, one not       -->
+    <!-- ============================================================ -->
+    <record id="demo_user_replacement_manager" model="res.users">
+        <field name="name">Lab Manager (demo)</field>
+        <field name="login">lab.manager</field>
+        <field name="password">lab.manager</field>
+        <field name="email">lab.manager@example.com</field>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('base.group_user'),
+            ref('sales_team.group_sale_salesman_all_leads'),
+            ref('stock.group_stock_user'),
+            ref('mat_product_replacement.group_product_replacement_manager'),
+        ])]"/>
+    </record>
+    <record id="demo_user_sales" model="res.users">
+        <field name="name">Sales User (demo)</field>
+        <field name="login">lab.sales</field>
+        <field name="password">lab.sales</field>
+        <field name="email">lab.sales@example.com</field>
+        <field name="groups_id" eval="[(6, 0, [
+            ref('base.group_user'),
+            ref('sales_team.group_sale_salesman_all_leads'),
+            ref('stock.group_stock_user'),
+        ])]"/>
+    </record>
+
+</odoo>

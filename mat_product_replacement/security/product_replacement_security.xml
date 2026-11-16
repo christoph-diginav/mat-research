@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        A group only gets a field in the main "Access Rights" tab of the user
+        form when it belongs to a category. Without one it is rendered as a
+        checkbox in the technical block, which is visible in developer mode
+        only. The category's parent decides the section it appears in.
+    -->
+    <record id="module_category_product_replacement" model="ir.module.category">
+        <field name="name">Product Replacement</field>
+        <field name="description">Controls who can replace outdated products and maintain the replacement reasons.</field>
+        <field name="parent_id" ref="base.module_category_inventory"/>
+        <field name="sequence">50</field>
+    </record>
+
+    <record id="group_product_replacement_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_category_product_replacement"/>
+        <field name="comment">Can replace outdated products and maintain the list of replacement reasons.</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+</odoo>

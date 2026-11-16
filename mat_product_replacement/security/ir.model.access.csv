@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_replacement_user,product.replacement.user,model_product_replacement,base.group_user,1,0,0,0
+access_product_replacement_reason_user,product.replacement.reason.user,model_product_replacement_reason,base.group_user,1,0,0,0
+access_product_replacement_reason_manager,product.replacement.reason.manager,model_product_replacement_reason,mat_product_replacement.group_product_replacement_manager,1,1,1,1
+access_product_replacement_wizard_manager,product.replacement.wizard.manager,model_product_replacement_wizard,mat_product_replacement.group_product_replacement_manager,1,1,1,1

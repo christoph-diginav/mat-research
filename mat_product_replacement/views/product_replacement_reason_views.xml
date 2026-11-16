@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_replacement_reason_view_list" model="ir.ui.view">
+        <field name="name">product.replacement.reason.list</field>
+        <field name="model">product.replacement.reason</field>
+        <field name="arch" type="xml">
+            <list string="Product Replacement Reasons" editable="bottom">
+                <field name="name"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="product_replacement_reason_view_search" model="ir.ui.view">
+        <field name="name">product.replacement.reason.search</field>
+        <field name="model">product.replacement.reason</field>
+        <field name="arch" type="xml">
+            <search string="Product Replacement Reasons">
+                <field name="name"/>
+                <filter name="inactive" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_product_replacement_reason" model="ir.actions.act_window">
+        <field name="name">Product Replacement Reasons</field>
+        <field name="res_model">product.replacement.reason</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a replacement reason
+            </p>
+            <p>
+                Reasons are offered in the Replace Product wizard. Add a line here whenever one is missing.
+            </p>
+        </field>
+    </record>
+
+</odoo>

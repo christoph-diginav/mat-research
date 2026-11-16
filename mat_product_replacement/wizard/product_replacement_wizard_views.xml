@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_replacement_wizard_view_form" model="ir.ui.view">
+        <field name="name">product.replacement.wizard.form</field>
+        <field name="model">product.replacement.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Replace Product">
+                <div class="alert alert-info" role="alert">
+                    A new product is created as a copy of this one. This product becomes
+                    Deprecated and stays active: its stock and existing documents are not moved.
+                    This cannot be repeated for the same product.
+                </div>
+                <group>
+                    <group string="Original">
+                        <field name="product_tmpl_id" readonly="1" force_save="1" options="{'no_open': True}"/>
+                    </group>
+                    <group string="Replacement">
+                        <field name="replacement_name"/>
+                        <field name="replacement_default_code"/>
+                    </group>
+                </group>
+                <group string="Why">
+                    <field name="reason_id" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="note" placeholder="Optional details, e.g. the catalogue number or the recall reference."/>
+                </group>
+                <footer>
+                    <button name="action_replace" type="object" string="Replace" class="btn-primary" data-hotkey="q"/>
+                    <button special="cancel" string="Cancel" class="btn-secondary" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_replacement_wizard" model="ir.actions.act_window">
+        <field name="name">Replace Product</field>
+        <field name="res_model">product.replacement.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

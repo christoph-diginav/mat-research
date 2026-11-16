@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Starting list only: the lab maintains its own reasons afterwards. -->
+    <record id="reason_supplier_discontinued" model="product.replacement.reason">
+        <field name="name">Supplier discontinued</field>
+    </record>
+    <record id="reason_specification_change" model="product.replacement.reason">
+        <field name="name">Specification or formulation change</field>
+    </record>
+    <record id="reason_quality_issue" model="product.replacement.reason">
+        <field name="name">Quality issue</field>
+    </record>
+    <record id="reason_regulatory_change" model="product.replacement.reason">
+        <field name="name">Regulatory change</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sales > Products -->
+    <menuitem id="menu_product_replacement"
+              name="Product Replacements"
+              parent="sale.product_menu_catalog"
+              action="action_product_replacement"
+              sequence="90"/>
+
+    <menuitem id="menu_product_replacement_reason"
+              name="Product Replacement Reasons"
+              parent="sale.product_menu_catalog"
+              action="action_product_replacement_reason"
+              groups="mat_product_replacement.group_product_replacement_manager"
+              sequence="95"/>
+
+</odoo>
